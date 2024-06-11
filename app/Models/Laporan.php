@@ -32,4 +32,8 @@ class Laporan extends Model
         return $this->hasMany(Foto::class);
     }
 
+    function pengerjaan_pelaporan() {
+        return $this->hasMany(PengerjaanPelaporan::class);
+    }
+
 }
