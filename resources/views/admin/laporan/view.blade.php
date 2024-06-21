@@ -34,34 +34,37 @@
 
             <div class="card-body">
 
-                <form method="POST" action="{{ route('laporan.agree',$dataLaporan->id) }}" autocomplete="off" enctype="multipart/form-data">
+                <form method="POST" action="{{ route('laporan.agree', $dataLaporan->id) }}" autocomplete="off"
+                    enctype="multipart/form-data">
                     @method('PUT')
                     @csrf
 
-                    <input type="hidden" name="status" value={{2}}>
+                    <input type="hidden" name="status" value=2>
 
                     <div class="pl-lg-4">
                         <div class="row">
 
-                            
+
                             <div class="col-lg-12">
                                 <div class="form-group">
                                     <label class="form-control-label" for="judul">Judul Laporan</label>
-                                    <input type="text" id="judul" class="form-control" name="judul" value="{{old('judul',$dataLaporan->judul)}}" disabled>
+                                    <input type="text" id="judul" class="form-control" name="judul"
+                                        value="{{ old('judul', $dataLaporan->judul) }}" disabled>
                                 </div>
                             </div>
 
                             <div class="col-lg-12">
                                 <div class="form-group">
                                     <label class="form-control-label" for="ringkasan">Deskripsi Laporan</label>
-                                    <textarea type="text" id="deskripsi" class="form-control" name="deskripsi" disabled>{{old('deskripsi', $dataLaporan->deskripsi)}}</textarea>
+                                    <textarea type="text" id="deskripsi" class="form-control" name="deskripsi" disabled>{{ old('deskripsi', $dataLaporan->deskripsi) }}</textarea>
                                 </div>
                             </div>
 
                             <div class="col-lg-12">
                                 <div class="form-group">
                                     <label class="form-control-label" for="ringkasan">Lokasi</label>
-                                    <input type="text" id="lokasi" class="form-control" name="lokasi" value="{{old('lokasi', $dataLaporan->lokasi)}}" disabled>
+                                    <input type="text" id="lokasi" class="form-control" name="lokasi"
+                                        value="{{ old('lokasi', $dataLaporan->lokasi) }}" disabled>
                                 </div>
                             </div>
 
@@ -80,10 +83,6 @@
                                     <label class="form-control-label" for="file">{{$dataLaporan->file}}</label>
                                 </div>
                             </div>
-
-                            <input type="hidden">
-
-
                         </div>
                     </div>
 
@@ -91,22 +90,21 @@
                     <div class="pl-lg-4">
                         <div class="row">
                             <div class="col text-left">
-                           
-                                <a href="{{route('laporan')}}" class="btn btn-light">Kembali</a>
-                        
+                                <a href="{{ route('laporan') }}" class="btn btn-light">Kembali</a>
                             </div>
-                            @if (auth()->user()->level==1|4)
-        
-                                @if ($dataLaporan->status==1)
+                            @if (auth()->user()->level == 4)
+                                @if ($dataLaporan->status == 1)
                                     <div class="col text-right">
                                         <button type="submit" class="btn btn-primary">Setujui Laporan</a>
                                     </div>
-                                @elseif ($dataLaporan->status==2)
-                                    <div class="col text-right">
-                                        <button type="submit" class="btn btn-primary" disabled>Sudah Diterima</a>
-                                    </div>
                                 @endif
 
+                                @if ($dataLaporan->status == 2)
+                                    <div class="col text-right">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                            data-target="#exampleModal">Selesai dikerjakan</button>
+                                    </div>
+                                @endif
                             @endif
 
 
@@ -119,9 +117,33 @@
             </div>
 
         </div>
+    </div>
 
-
-
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form action="{{route('laporan.finish', $dataLaporan->id)}}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="image" class="col-form-label">Bukti Foto Pengerjaan:</label>
+                            <input type="file" class="form-control" id="image" name="image[]" multiple></input>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                        <button type="submit" class="btn btn-primary">Selesaikan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 
 @endsection

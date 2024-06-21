@@ -8,6 +8,7 @@ use App\Models\Foto;
 use App\Models\Laporan;
 use App\Models\Pelabuhan;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
+use App\Models\PengerjaanPelaporan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
@@ -328,5 +329,38 @@ class LaporanController extends Controller
             $th->getMessage();
             return view('admin.error.view');
         }
+    }
+
+    public function finsihed($id, Request $request) {
+        if ($request->hasFile('image')) {
+            $images = $request->file("image");
+            foreach ($images as $image) {
+                $imageName = time() . '_' . $image->getClientOriginalName();
+            
+                $uploadFoto     = new PengerjaanPelaporan([
+                    'laporan_id'    => $id,
+                    'foto'          => $imageName
+                ]);
+                $image->move(public_path('gambar'), $imageName);
+                $uploadFoto->save();
+            }
+
+            $laporan = Laporan::query()->findOrFail($id);
+            $laporan->status = 3;
+            $laporan->save();
+
+            $url = action([LaporanController::class,'show'], $id);
+            $message = "Judul Laporan = $request->judul\nLokasi = $request->lokasi \nPelapor = ".auth()->user()->name.' '.auth()->user()->last_name."\n $url"."\n Sudah selesai dikerjakan";
+            Telegram::sendMessage([
+                'chat_id'   => -4253643491,
+                'text'      => $message  
+            ]);
+
+            Alert::toast('Laporan Berhasil diselesaikan !','success');
+            return redirect('/laporan/'.$id.'/detail');
+        }
+
+        Alert::toast('Anda belum memasukkan bukti pengerjaan !','danger');
+        return redirect('/laporan/'.$id.'/detail');
     }
 }
