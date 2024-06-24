@@ -61,13 +61,7 @@ Route::group(['middleware' => ['auth','RoleLevel:1']], function(){
     Route::get('/user/{id}/destroy' , 'PenggunaController@destroy')->name('user.destroy');
 });
 
-// Route::group(['middleware' => ['auth','RoleLevel:gm']], function(){
 
-// });
-
-// Route::group(['middleware' => ['auth','RoleLevel:mteknik']], function(){
-
-// });
 
 Route::get('/error' ,'LaporanController@error');
 

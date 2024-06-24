@@ -29,7 +29,10 @@
         <div class="card shadow mb-4">
 
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Sunting Laporan No <b>{{$dataLaporan->id}}</b> oleh {{$dataLaporan->user->name}} {{$dataLaporan->user->last_name}}</h6>
+                <div class="d-flex justify-content-start">
+                    <a href="{{ route('laporan') }}" class="mr-2 btn-sm btn-light"><i class="fa-solid fa-arrow-left"></i></a>
+                    <h5 class="font-weight-bold text-primary">Laporan No <b>{{$dataLaporan->id}}</b> oleh {{$dataLaporan->user->name}} {{$dataLaporan->user->last_name}}</h5>
+                </div>
             </div>
 
             <div class="card-body">
@@ -60,6 +63,21 @@
                                 <div class="form-group">
                                     <label class="form-control-label" for="file">Deskripsi Laporan</label>
                                     <textarea type="text" id="deskripsi" class="form-control" name="deskripsi" >{{$dataLaporan->deskripsi}}</textarea>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="pelabuhan">Lokasi Pelabuhan</label>
+                                    <select class="form-control" name="pelabuhan" id="pelabuhan">
+                                        @foreach ($dataPelabuhan as $item)
+                                            <option value="{{$item->pelabuhan}}">
+                                                <b>
+                                                    {{$item->pelabuhan}}
+                                                </b>
+                                            </option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
 

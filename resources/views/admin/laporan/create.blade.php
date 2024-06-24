@@ -36,8 +36,6 @@
 
                 <form method="POST" action="{{ route('laporan.store') }}" autocomplete="off" enctype="multipart/form-data">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
-
-                    {{-- <input type="hidden" name="_method" value="POST"> --}}
                     
                     <input type="hidden" name="status" value={{1}}>
 
@@ -46,14 +44,14 @@
                             <div class="col-lg-12">
                                 <div class="form-group">
                                     <label class="form-control-label" for="judul">Judul Laporan</label>
-                                    <input type="text" id="judul" class="form-control" name="judul">
+                                    <input type="text" id="judul" class="form-control" name="judul" value="{{old('judul')}}">
                                 </div>
                             </div>
 
                             <div class="col-lg-12">
                                 <div class="form-group">
                                     <label class="form-control-label" for="deskripsi">Deskripsi Laporan</label>
-                                    <textarea type="text" id="deskripsi" class="form-control" name="deskripsi"></textarea>
+                                    <textarea type="text" id="deskripsi" class="form-control" name="deskripsi">{{old('deskripsi')}}</textarea>
                                 </div>
                             </div>
 
@@ -62,9 +60,9 @@
                                     <label class="form-control-label" for="pelabuhan">Lokasi Pelabuhan</label>
                                     <select class="form-control" name="pelabuhan" id="pelabuhan">
                                         @foreach ($dataPelabuhan as $item)
-                                            <option value="{{$item->pelabuhan}}">
+                                            <option value="{{$item->pelabuhan}}" @selected(old($item->pelabuhan) == $item->pelabuhan)>
                                                 <b>
-                                                {{$item->pelabuhan}}
+                                                    {{$item->pelabuhan}}
                                                 </b>
                                             </option>
                                         @endforeach
@@ -75,7 +73,7 @@
                             <div class="col-lg-12">
                                 <div class="form-group">
                                     <label class="form-control-label" for="lokasi">Lokasi</label>
-                                    <textarea type="text" id="lokasi" class="form-control" name="lokasi"></textarea>
+                                    <textarea type="text" id="lokasi" class="form-control" name="lokasi">{{old('lokasi')}}</textarea>
                                 </div>
                             </div>
 
@@ -93,18 +91,17 @@
 
                             <div class="col-lg-12">
                                 <div class="form-group">
-                                    <label class="form-control-label" for="foto">Bukti Foto laporan</label>
+                                    <label class="form-control-label" for="foto">Bukti Foto laporan </label>
                                     <input type="file" id="foto" class="form-control" name="foto[]" multiple>
                                 </div>
                             </div>
 
                             <div class="col-lg-12 mb-4">
                                 <div class="form-group">
-                                    <label class="form-control-label" for="file">File</label>
+                                    <label class="form-control-label" for="file">File</label> 
                                     <input type="file" id="file" class="form-control" name="file">
                                 </div>
                             </div>
-
                         </div>
                     </div>
 
