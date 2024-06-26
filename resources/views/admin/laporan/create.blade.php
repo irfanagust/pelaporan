@@ -43,24 +43,25 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="form-group">
-                                    <label class="form-control-label" for="judul">Judul Laporan</label>
+                                    <label class="form-control-label" for="judul">Judul Laporan <label for="foto" style="color: red">*</label></label>
                                     <input type="text" id="judul" class="form-control" name="judul" value="{{old('judul')}}">
                                 </div>
                             </div>
 
                             <div class="col-lg-12">
                                 <div class="form-group">
-                                    <label class="form-control-label" for="deskripsi">Deskripsi Laporan</label>
+                                    <label class="form-control-label" for="deskripsi">Deskripsi Laporan <label for="foto" style="color: red">*</label></label>
                                     <textarea type="text" id="deskripsi" class="form-control" name="deskripsi">{{old('deskripsi')}}</textarea>
                                 </div>
                             </div>
 
                             <div class="col-lg-12">
                                 <div class="form-group">
-                                    <label class="form-control-label" for="pelabuhan">Lokasi Pelabuhan</label>
+                                    <label class="form-control-label" for="pelabuhan">Lokasi Pelabuhan <label for="foto" style="color: red">*</label></label>
                                     <select class="form-control" name="pelabuhan" id="pelabuhan">
+                                        <option value=""> - Pilih Pelabuhan - </option>
                                         @foreach ($dataPelabuhan as $item)
-                                            <option value="{{$item->pelabuhan}}" @selected(old($item->pelabuhan) == $item->pelabuhan)>
+                                            <option value="{{$item->pelabuhan}}" {{ old('pelabuhan') == $item->pelabuhan ? 'selected' : '' }}>
                                                 <b>
                                                     {{$item->pelabuhan}}
                                                 </b>
@@ -72,7 +73,7 @@
 
                             <div class="col-lg-12">
                                 <div class="form-group">
-                                    <label class="form-control-label" for="lokasi">Lokasi</label>
+                                    <label class="form-control-label" for="lokasi">Lokasi <label for="foto" style="color: red">*</label></label>
                                     <textarea type="text" id="lokasi" class="form-control" name="lokasi">{{old('lokasi')}}</textarea>
                                 </div>
                             </div>
@@ -91,14 +92,14 @@
 
                             <div class="col-lg-12">
                                 <div class="form-group">
-                                    <label class="form-control-label" for="foto">Bukti Foto laporan </label>
+                                    <label class="form-control-label" for="foto">Bukti Foto laporan <label for="foto" style="color: red">*</label></label>
                                     <input type="file" id="foto" class="form-control" name="foto[]" multiple>
                                 </div>
                             </div>
 
                             <div class="col-lg-12 mb-4">
                                 <div class="form-group">
-                                    <label class="form-control-label" for="file">File</label> 
+                                    <label class="form-control-label" for="file">File <label for="file" class="text-gray-500">{{'(jika ada)'}}</label></label> 
                                     <input type="file" id="file" class="form-control" name="file">
                                 </div>
                             </div>

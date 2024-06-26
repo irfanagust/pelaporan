@@ -75,51 +75,35 @@
                                 </div>
                             </div>
 
-                            <div class="col-lg-12">
+                            <div class="col-lg-12 mb-4">
                                 <div class="form-group">
-                                    <label class="form-control-label" for="ringkasan">Lokasi</label>
-                                    <input type="text" id="lokasi" class="form-control" name="lokasi"
-                                        value="{{ old('lokasi', $dataLaporan->lokasi) }}" disabled>
+                                    <label class="form-control-label" for="lokasi">Lokasi</label>
+                                    <textarea type="text" id="lokasi" class="form-control" name="lokasi" disabled>{{ old('lokasi', $dataLaporan->lokasi) }}</textarea>
                                 </div>
                             </div>
 
-                            {{-- <div class="col-lg-12">
-                                <div class="form-group text-center">
-                                    <div class="container">
-                                    @foreach ($fotoLaporan as $item)
-                                        <img class="object-fit-contain border rounded mb-4" src="{{asset('gambar/'.$item->foto)}}" alt="Responsive image" style="width: 90%">
-                                    @endforeach
+                            <div class="col-lg-6">
+                                <div class="card mb-4">
+                                    <div class="card-header">
+                                        <b>Bukti Foto Laporan</b>
                                     </div>
-                                </div>
-                            </div> --}}
-
-                            @if ($fotoLaporan->isEmpty())
-                                <div class="col-lg-12 mt-4 mb-4">
-                                    <div class="form-group text-center">
+                                    <div class="card-body">
                                         <div class="container">
-                                            <img class="object-fit-contain border rounded mb-4" src="{{asset('default_image/no_image.jpg')}}" alt="Responsive image" style="width: 40%">
-                                        </div>
-                                    </div>
-                                </div>
-                            @else
-                                <div class="col-lg-12 mb-4 mt-4">
-                                    <div class="form-group text-center">
-                                        <div class="container">
-                                            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="width: 40%">
+                                            <div id="fotoLaporan" class="carousel slide" data-ride="carousel">
                                                 <div class="carousel-inner">
                                                     @if ($fotoLaporan)
                                                         @foreach ($fotoLaporan as $item)
                                                             <div class="carousel-item @if ($loop->first) active @endif">
-                                                                <img src="{{asset('gambar/'.$item->foto)}}" class="d-block w-100" style="width: 40%">
+                                                                <img src="{{asset('gambar/'.$item->foto)}}" class="d-block w-100" style="width:640px; height:320px;">
                                                             </div>
                                                         @endforeach
                                                     @endif
                                                 </div>
-                                                <button class="carousel-control-prev" type="button" data-target="#carouselExampleIndicators" data-slide="prev">
+                                                <button class="carousel-control-prev" type="button" data-target="#fotoLaporan" data-slide="prev">
                                                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                                     <span class="sr-only">Previous</span>
                                                 </button>
-                                                <button class="carousel-control-next" type="button" data-target="#carouselExampleIndicators" data-slide="next">
+                                                <button class="carousel-control-next" type="button" data-target="#fotoLaporan" data-slide="next">
                                                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                                                     <span class="sr-only">Next</span>
                                                 </button>
@@ -127,45 +111,85 @@
                                         </div>
                                     </div>
                                 </div>
-                            @endif
+                            </div>
 
-                            
-                            @if ($dataLaporan->status == 3)
-                                <div class="col-lg-12 mb-4 mt-4">
-                                    <div class="form-group text-center">
-                                        <div class="container">
-                                            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="width: 40%">
-                                                <div class="carousel-inner">
-                                                    @if ($dataPengerjaanLaporan)
-                                                        @foreach ($dataPengerjaanLaporan as $item)
-                                                            <div class="carousel-item @if ($loop->first) active @endif">
-                                                                <img src="{{asset('laporan_selesai/'.$item->foto)}}" class="d-block w-100" style="width: 40%">
-                                                            </div>
-                                                        @endforeach
-                                                    @endif
+                            <div class="col-lg-6">
+                                <div class="card mb-4">
+                                    <div class="card-header">
+                                        <b>Bukti Laporan Pengerjaan</b>
+                                    </div>
+                                    <div class="card-body">
+
+                                        @if ($dataLaporan->status == 3)
+  
+                                            <div class="container">
+                                                <div id="fotoPengerjaan" class="carousel slide" data-ride="carousel">
+                                                    <div class="carousel-inner">
+                                                        @if ($dataPengerjaanLaporan)
+                                                            @foreach ($dataPengerjaanLaporan as $item)
+                                                                <div class="carousel-item @if ($loop->first) active @endif">
+                                                                    <img src="{{asset('laporan_selesai/'.$item->foto)}}" class="d-block w-100" style="width:640px; height:320px;">
+                                                                </div>
+                                                            @endforeach
+                                                        @endif
+                                                    </div>
+                                                    <button class="carousel-control-prev" type="button" data-target="#fotoPengerjaan" data-slide="prev">
+                                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                        <span class="sr-only">Previous</span>
+                                                    </button>
+                                                    <button class="carousel-control-next" type="button" data-target="#fotoPengerjaan" data-slide="next">
+                                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                        <span class="sr-only">Next</span>
+                                                    </button>
                                                 </div>
-                                                <button class="carousel-control-prev" type="button" data-target="#carouselExampleIndicators" data-slide="prev">
-                                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                                    <span class="sr-only">Previous</span>
-                                                </button>
-                                                <button class="carousel-control-next" type="button" data-target="#carouselExampleIndicators" data-slide="next">
-                                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                                    <span class="sr-only">Next</span>
-                                                </button>
+                                            </div>                             
+                                        @else                                  
+                                            <div class="container">
+                                                <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                                                    <div class="carousel-inner">
+                                                        <div class="carousel-item active">
+                                                            <img src="{{asset('default_image/belum-dikerjakan.png')}}" class="d-block w-100" style="width:640px; height:320px;">
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
+                                        @endif
                                     </div>
                                 </div>
-                            @else
-                            belum
-                            @endif
-
+                            </div>
 
                             <div class="col-lg-12">
                                 <div class="form-group">
-                                    <label class="form-control-label" for="file">{{$dataLaporan->file}}</label>
+                                    <label class="form-control-label" for="file">Dokumen Kelengkapan</label>
                                 </div>
                             </div>
+
+                            <div class="col-lg-12 mb-4">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <div class="d-flex justify-content-between align-items-start">
+                                            @if ($dataLaporan->file == null)
+                                                <span>Belum ada dokumen harap hubungi admin</span>
+                                                <button disabled dis class="btn btn-primary btn-icon-split">
+                                                    <span class="icon text-white-50">
+                                                        <i class="fas fa-arrow-down"></i>
+                                                    </span>
+                                                    <span class="text">Tidak ada Dokumen</span>
+                                                </button>
+                                            @else
+                                            <span>Nama File &nbsp; : &nbsp; {{$dataLaporan->file}}</span>
+                                                <a href="{{route('file_download',$dataLaporan->id)}}" class="btn btn-primary btn-icon-split">
+                                                    <span class="icon text-white-50">
+                                                        <i class="fas fa-arrow-down"></i>
+                                                    </span>
+                                                    <span class="text">Unduh Dokumen</span>
+                                                </a>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
                         </div>
                     </div>
 
@@ -175,7 +199,7 @@
                             <div class="col text-left">
                                 <a href="{{ route('laporan') }}" class="btn btn-light">Kembali</a>
                             </div>
-                            @if (auth()->user()->level == 4)
+                            @if (auth()->user()->level == 4 | auth()->user()->level == 3)
                                 @if ($dataLaporan->status == 1)
                                     <div class="col text-right">
                                         <button type="submit" class="btn btn-primary">Setujui Laporan</a>

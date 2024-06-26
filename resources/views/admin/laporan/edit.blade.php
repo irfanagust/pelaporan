@@ -54,13 +54,6 @@
 
                             <div class="col-lg-12">
                                 <div class="form-group">
-                                    <label class="form-control-label" for="lokasi">Ringkasan Laporan</label>
-                                    <input type="text" id="lokasi" class="form-control" name="lokasi" value="{{$dataLaporan->lokasi}}">
-                                </div>
-                            </div>
-
-                            <div class="col-lg-12">
-                                <div class="form-group">
                                     <label class="form-control-label" for="file">Deskripsi Laporan</label>
                                     <textarea type="text" id="deskripsi" class="form-control" name="deskripsi" >{{$dataLaporan->deskripsi}}</textarea>
                                 </div>
@@ -78,6 +71,13 @@
                                             </option>
                                         @endforeach
                                     </select>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="lokasi">Ringkasan Laporan</label>
+                                    <input type="text" id="lokasi" class="form-control" name="lokasi" value="{{$dataLaporan->lokasi}}">
                                 </div>
                             </div>
 

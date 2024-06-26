@@ -45,7 +45,7 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <table class="table table-bordered userTable" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                             <tr>
                                 <th class="col-sm-1">No</th>
@@ -120,6 +120,15 @@
                 });
             });
         });
+    </script>
+
+    <script>
+        new DataTable('.userTable', {
+        responsive: true,
+        rowReorder: {
+            selector: 'td:nth-child(2)'
+        }
+    });
     </script>
 
 

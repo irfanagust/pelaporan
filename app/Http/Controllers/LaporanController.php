@@ -64,10 +64,11 @@ class LaporanController extends Controller
             'pelabuhan'     => 'required',
             'divisi'        => 'nullable|array'
         ],[
-            'judul.required'        => 'Field judul harus diisi',
-            'deskripsi.required'    => 'Field deskripsi harus diisi',
-            'lokasi.required'       => 'Field lokasi harus diisi',
+            'judul.required'        => 'Form judul harus diisi',
+            'deskripsi.required'    => 'Form deskripsi harus diisi',
             'pelabuhan.required'    => 'Pilih salah satu Pelabuhan',
+            'lokasi.required'       => 'Form lokasi harus diisi',
+            'foto.required'         => 'Harap Lampirkan bukti foto',
             'divisi.required'       => 'Pilih divisi yang dituju',
             'divisi.array'          => 'Pilih divisi yang dituju',
             'divisi.min'            => 'Pilih divisi yang dituju',
@@ -86,7 +87,6 @@ class LaporanController extends Controller
             $storeLaporan->pelabuhan    = $request->pelabuhan;
             $storeLaporan->lokasi       = $request->lokasi;
             $storeLaporan->status       = $request->status;
-
 
             if($request->hasFile('file')){
                 $fileUpload = $request->file('file');
@@ -153,7 +153,6 @@ class LaporanController extends Controller
         }
     }
 
-
     public function edit(string $id)
     {
         try {
@@ -168,15 +167,38 @@ class LaporanController extends Controller
         }   
     }
 
+    public function download($id){
+        $dataLaporan = Laporan::find($id);
+        $filePath =  public_path('file/'. $dataLaporan->file);
+
+        return response()->download($filePath);
+    }
 
     public function update(Request $request, string $id)
     {
+        $request->validate([
+            'judul'         => 'required',
+            'deskripsi'     => 'required',
+            'lokasi'        => 'required',
+            'divisi'        => 'required|array|min:1',
+            'divisi.*'      => 'string',
+            'foto'          => 'required',
+            'foto.*'        => 'required|image|mimes:jpeg,jpg,png,gif,svg|max:5120',
+            'file'          => 'nullable',
+            'pelabuhan'     => 'required',
+            'divisi'        => 'nullable|array'
+        ],[
+            'judul.required'        => 'Field judul harus diisi',
+            'deskripsi.required'    => 'Field deskripsi harus diisi',
+            'lokasi.required'       => 'Field lokasi harus diisi',
+            'pelabuhan.required'    => 'Pilih salah satu Pelabuhan',
+            'divisi.required'       => 'Pilih divisi yang dituju',
+            'divisi.array'          => 'Pilih divisi yang dituju',
+            'divisi.min'            => 'Pilih divisi yang dituju',
+            ]
+        );
+
         try {
-            $request->validate([
-                'foto'      => 'required',
-                'foto.*'    => 'required|image|mimes:jpeg,jpg,png,gif,svg|max:5120',
-                'file'      => 'required'
-            ]);
     
             $dataLaporan = Laporan::findOrFail($id);
     
@@ -192,6 +214,7 @@ class LaporanController extends Controller
                 $dataLaporan->judul         = $request->judul;
                 $dataLaporan->lokasi        = $request->lokasi;
                 $dataLaporan->deskripsi     = $request->deskripsi;
+                $dataLaporan->update();
             }
     
             foreach ($dataLaporan->foto as $foto) {
@@ -212,6 +235,33 @@ class LaporanController extends Controller
                     $file->move(public_path('gambar'), $imageName);
                     $uploadFoto->save();
                 }
+            }
+
+            try {
+                $firstPhoto = Foto::query()->where('laporan_id',$id)->first();
+                $urlPhoto = public_path('gambar/'.$firstPhoto->foto);
+                
+                $groupChat = -4243954575;
+                $url = action([LaporanController::class,'show'],$id);
+                $message = "*Laporan No $id*\n \nJudul Laporan = $dataLaporan->judul \nLokasi = $dataLaporan->lokasi \nPelabuhan = $dataLaporan->pelabuhan \nPelapor = ".auth()->user()->name.' '.auth()->user()->last_name."\n$url"."\n \n *Laporan $id telah diubah*";
+                Telegram::sendMessage([
+                    'chat_id'   =>  $groupChat,
+                    'text'      => $message,
+                ]);
+                Telegram::sendPhoto([
+                    'chat_id'   => $groupChat,
+                    'photo'     => new InputFile($urlPhoto),
+                    'caption'    => "No Laporan $id Diubah"
+                ]);
+
+                Alert::toast('Laporan Terkirim !','success');
+                return redirect('laporan/');
+
+            } catch (\Throwable $th) {
+                Log::error($th);
+                $th->getMessage();
+                Alert::toast('Tidak dapat mengirim Telegram, Periksa koneksi internet','warning');
+                return redirect('laporan/');
             }
     
             $dataLaporan->update();
@@ -282,7 +332,7 @@ class LaporanController extends Controller
             try {
                 $groupChat = -4243954575;
                 $url = action([LaporanController::class,'show'],$dataLaporan->id);
-                $message = "*Laporan No $dataLaporan->id* \n \nJudul Laporan = $dataLaporan->judul \nLokasi = $dataLaporan->lokasi \nPelabuhan = $dataLaporan->pelabuhan \nPelapor = ". $dataLaporan->user->name.' '.$dataLaporan->user->last_name."\nDisetujui Oleh = ".auth()->user()->name.' '.auth()->user()->last_name." \n$url"."\n \n *Laporan sudah diterima*";
+                $message = "*Laporan No $dataLaporan->id* \n \nJudul Laporan = $dataLaporan->judul \nLokasi = $dataLaporan->lokasi \nPelabuhan = $dataLaporan->pelabuhan \nPelapor = ". $dataLaporan->user->name.' '.$dataLaporan->user->last_name."\n$url"."\n \n *Laporan sudah diterima*";
                 Telegram::sendMessage([
                     'chat_id'   =>  $groupChat,
                     'text'      => $message
@@ -305,7 +355,6 @@ class LaporanController extends Controller
         }
     }
 
-
     public function group($id)
     {
         try {
@@ -322,7 +371,6 @@ class LaporanController extends Controller
             return view('admin.error.view');
         }
     }
-
 
     public function groupping(Request $request, $id){
         try {
@@ -362,25 +410,34 @@ class LaporanController extends Controller
             $laporan = Laporan::query()->findOrFail($id);
             $laporan->status = 3;
             $laporan->save();
+            
+            try {
+                $firstPhoto = PengerjaanPelaporan::query()->where('laporan_id',$id)->first();
+                $urlPhoto = public_path('laporan_selesai/'.$firstPhoto->foto);
 
-            $firstPhoto = PengerjaanPelaporan::query()->where('laporan_id',$id)->first();
-            $urlPhoto = public_path('laporan_selesai/'.$firstPhoto->foto);
+                $url = action([LaporanController::class,'show'], $id);
+                $groupChat = -4243954575;
+                $message = "*Laporan No $laporan->id* \n \nJudul Laporan = $laporan->judul\nLokasi = $laporan->lokasi \nPelabuhan = $request->pelabuhan \nPelapor = ".$laporan->user->name.' '.$laporan->user->last_name."\n $url"."\n \n *Sudah selesai dikerjakan*";
+                Telegram::sendMessage([
+                    'chat_id'   => $groupChat,
+                    'text'      => $message  
+                ]);
+                Telegram::sendPhoto([
+                    'chat_id'   => $groupChat,
+                    'photo'     => new InputFile($urlPhoto),
+                    'caption'    => "No Laporan $id Sudah Dikerjakan"
+                ]);
 
-            $url = action([LaporanController::class,'show'], $id);
-            $groupChat = -4243954575;
-            $message = "*Laporan No $laporan->id* \n \nJudul Laporan = $laporan->judul\nLokasi = $laporan->lokasi \nPelabuhan = $request->pelabuhan \nPelapor = ".$laporan->user->name.' '.$laporan->user->last_name."\n $url"."\n \n *Sudah selesai dikerjakan*";
-            Telegram::sendMessage([
-                'chat_id'   => $groupChat,
-                'text'      => $message  
-            ]);
-            Telegram::sendPhoto([
-                'chat_id'   => $groupChat,
-                'photo'     => new InputFile($urlPhoto),
-                'caption'    => "No Laporan $id Sudah Dikerjakan"
-            ]);
+                Alert::toast('Laporan Berhasil diselesaikan !','success');
+                return redirect('/laporan/'.$id.'/detail');
+            } catch (\Throwable $th) {
+                Log::error($th);
+                $th->getMessage();
+                Alert::toast('Tidak dapat mengirim Telegram, Periksa koneksi internet','warning');
+                return redirect('laporan/');
+            }
 
-            Alert::toast('Laporan Berhasil diselesaikan !','success');
-            return redirect('/laporan/'.$id.'/detail');
+            
         }
 
         Alert::toast('Anda belum memasukkan bukti pengerjaan !','danger');

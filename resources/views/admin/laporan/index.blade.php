@@ -80,7 +80,7 @@
                                     </td>
                                     <td>
                                         @if ($row->status == 1)
-                                            Belum Diterima
+                                            Belum Di terima
                                         @endif
 
                                         @if ($row->status == 2)
@@ -94,22 +94,21 @@
                                     <td class="text-right">
                                         <div class="btn-group">
                                               
-                                            <a class="btn btn-info btn-sm mr-2" href="{{ route('laporan.show', $row->id) }}"><i class="fas fa-fw fa-circle-info"></i></a>
-
-                                            @if (auth()->user()->level == 1| auth()->user()->level == 2)
-                                                <a class="btn btn-success btn-sm mr-2" href="{{ route('laporan.group', $row->id) }}"><i class="fas fa-fw fa-people-group"></i></a>
-                                            @endif
-
                                             @if (auth()->user()->level == 1 | auth()->user()->level == 2 | auth()->user()->level == 5)
                                                 @if ($row->status == 1)
                                                     <a class="btn btn-warning btn-sm mr-2"href="{{ route('laporan.edit', $row->id) }}"><i class="fas fa-fw fa-edit"></i></a>
                                                 @endif
                                             @endif
 
-                                            @if (auth()->user()->level == 1 |auth()->user()->level == 2 | auth()->user()->level == 5)
-                                                @if ($row->status == 1)
-                                                    <a class="btn btn-danger btn-sm mr-2 deleteLaporan" data-id="{{ $row->id }}"><i class="fas fa-trash-alt"></i></a>
-                                                @endif
+                                            <a class="btn btn-info btn-sm mr-2" href="{{ route('laporan.show', $row->id) }}"><i class="fas fa-fw fa-circle-info"></i></a>
+                                            
+                                            @if (auth()->user()->level == 1| auth()->user()->level == 2)
+                                                <a class="btn btn-success btn-sm mr-2" href="{{ route('laporan.group', $row->id) }}"><i class="fas fa-fw fa-people-group"></i></a>
+                                            @endif
+                                            
+
+                                            @if (auth()->user()->level == 1)
+                                                <a class="btn btn-danger btn-sm mr-2 deleteLaporan" data-id="{{ $row->id }}"><i class="fas fa-trash-alt"></i></a>
                                             @endif
                                         </div>
 

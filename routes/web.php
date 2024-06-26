@@ -30,7 +30,7 @@ Route::group(['middleware' => ['auth','RoleLevel:1,2,3,4,5']], function(){
     Route::get('/laporan', 'LaporanController@index')->name('laporan');
 });
 
-Route::group(['middleware' => ['auth','RoleLevel:1,2,5']], function(){
+Route::group(['middleware' => ['auth','RoleLevel:1,3,4,5']], function(){
     Route::get('/laporan/create', 'LaporanController@create')->name('laporan.create');
     Route::post('/laporan/store', 'LaporanController@store')->name('laporan.store');
     Route::put('/laporan/{id}/update', 'LaporanController@update')->name('laporan.update');
@@ -47,7 +47,7 @@ Route::group(['middleware' => ['auth','RoleLevel:1,2,3,4,5']], function(){
     Route::get('/laporan/{id}/detail', 'LaporanController@show')->name('laporan.show');
 });
 
-Route::group(['middleware' => ['auth','RoleLevel:1,4']], function(){
+Route::group(['middleware' => ['auth','RoleLevel:1,3,4']], function(){
     Route::put('/laporan/{id}/confirm', 'LaporanController@setuju')->name('laporan.agree');
     Route::post('/laporan/{id}/finished', 'LaporanController@finsihed')->name('laporan.finish');
 });
@@ -61,6 +61,7 @@ Route::group(['middleware' => ['auth','RoleLevel:1']], function(){
     Route::get('/user/{id}/destroy' , 'PenggunaController@destroy')->name('user.destroy');
 });
 
+Route::get('/laporan/{id}/download', 'LaporanController@download')->name('file_download');
 
 
 Route::get('/error' ,'LaporanController@error');

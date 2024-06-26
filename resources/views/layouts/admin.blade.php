@@ -32,9 +32,9 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
         <!-- Sidebar - Brand -->
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url('/home') }}">
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('laporan') }}">
             <div class="sidebar-brand-icon rotate-n-15">
-                <i class="fas fa-laugh-wink"></i>
+                <img src="{{asset('default_image/logo.png')}}" alt="">
             </div>
             <div class="sidebar-brand-text mx-3">APALAGI<sup>?</sup></div>
         </a>
