@@ -80,8 +80,8 @@
 
                             <div class="col-lg-12">
                                 <div class="form-group">
-                                    <label class="form-control-label" for="email">Email</label>
-                                    <input type="email" id="email" class="form-control" name="email" value="{{$dataUser->email}}">
+                                    <label class="form-control-label" for="username">Username</label>
+                                    <input type="text" id="username" class="form-control" name="username" value="{{$dataUser->username}}">
                                 </div>
                             </div>
 

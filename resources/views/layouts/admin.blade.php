@@ -58,14 +58,6 @@
         </div>
 
         <!-- Nav Item - Profile -->
-        
-            
-        <li class="nav-item {{ Nav::isRoute('profile') }}">
-            <a class="nav-link" href="{{ route('profile') }}">
-                <i class="fas fa-fw fa-user"></i>
-                <span>{{ __('Profile') }}</span>
-            </a>
-        </li>
 
         @if (auth()->user()->level==1)
         <li class="nav-item {{ Nav::isRoute('user.index') }}">
@@ -75,14 +67,6 @@
             </a>
         </li>
         @endif
-
-        <!-- Nav Item - About -->
-        <li class="nav-item {{ Nav::isRoute('about') }}">
-            <a class="nav-link" href="{{ route('about') }}">
-                <i class="fas fa-fw fa-hands-helping"></i>
-                <span>{{ __('About') }}</span>
-            </a>
-        </li>
 
         <!-- Divider -->
         <hr class="sidebar-divider d-none d-md-block">
@@ -108,18 +92,6 @@
                 <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                     <i class="fa fa-bars"></i>
                 </button>
-
-                <!-- Topbar Search -->
-                <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                    <div class="input-group">
-                        <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-                        <div class="input-group-append">
-                            <button class="btn btn-primary" type="button">
-                                <i class="fas fa-search fa-sm"></i>
-                            </button>
-                        </div>
-                    </div>
-                </form>
 
                 <!-- Topbar Navbar -->
                 <ul class="navbar-nav ml-auto">
@@ -158,12 +130,6 @@
                         </a>
                         <!-- Dropdown - User Information -->
                         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                            <a class="dropdown-item" href="{{ route('profile') }}">
-                                <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                {{ __('Profile') }}
-                            </a>
-
-                            <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{{route('user.logout')}}">
                                 <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                 {{ __('Logout') }}

@@ -61,7 +61,7 @@
                                     <td class="col-sm-1">{{ ++$i }}</td>
                                     <td>{{ $row->name }} {{ $row->last_name }}</td>
                                     <td>{{ $row->divisiLevel->level}}</td>
-                                    <td>{{ $row->email }}</td>
+                                    <td>{{ $row->username }}</td>
                                     <td class="text-right">
                                         <div class="btn-group">
                                             <a class="btn btn-sm btn-warning mr-2" href="{{ route('user.edit', $row->id) }}"><i class="fas fa-fw fa-edit"></i></a>

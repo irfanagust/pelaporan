@@ -59,7 +59,7 @@ class LaporanController extends Controller
             'divisi'        => 'required|array|min:1',
             'divisi.*'      => 'string',
             'foto'          => 'required',
-            'foto.*'        => 'required|image|mimes:jpeg,jpg,png,gif,svg|max:5120',
+            'fotos.*'       => 'mimes:jpeg,jpg,png,svg|max:5126',
             'file'          => 'nullable',
             'pelabuhan'     => 'required',
             'divisi'        => 'nullable|array'
@@ -183,7 +183,7 @@ class LaporanController extends Controller
             'divisi'        => 'required|array|min:1',
             'divisi.*'      => 'string',
             'foto'          => 'required',
-            'foto.*'        => 'image|mimes:jpeg,jpg,png,svg|max:5126',
+            'fotos.*'       => 'mimes:jpeg,jpg,png,svg|max:5126',
             'file'          => 'nullable',
             'pelabuhan'     => 'required',
             'divisi'        => 'nullable|array'
