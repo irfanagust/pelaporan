@@ -14,43 +14,35 @@ class AdminSeeder extends Seeder
     public function run(): void
     {
         DB::table('users')->insert([
-                'name'          =>  'Super',
-                'last_name'     =>  'Admin',
-                'level'         =>  1,
-                'telp'          =>  '082182133457',
-                'email'         =>  'admin@gmail.com',
-                'password'      =>   bcrypt('admin123456'),
-        ]);
-        DB::table('users')->insert([
-                'name'          =>  'Rusdi',
-                'last_name'     =>  'Salim',
-                'level'         =>  2,
-                'telp'          =>  '082182133457',
-                'email'         =>  'rusdi@gmail.com',
-                'password'      =>   bcrypt('123'),
+            'name'          =>  'Super',
+            'last_name'     =>  'Admin',
+            'level'         =>  1,
+            'telp'          =>  '082182133457',
+            'username'      =>  'tessuper',
+            'password'      =>   bcrypt('123'),
         ]);
         DB::table('users')->insert([
             'name'          =>  'Faiz',
             'last_name'     =>  'Mandraguno',
-            'level'         =>  3,
+            'level'         =>  2,
             'telp'          =>  '082182133457',
-            'email'         =>  'faiz@gmail.com',
+            'username'      =>  'tesadmin',
             'password'      =>   bcrypt('123'),
         ]);
         DB::table('users')->insert([
-            'name'          =>  'Harjanto',
-            'last_name'     =>  'Surya',
-            'level'         =>  4,
+            'name'          =>  'Rusdi',
+            'last_name'     =>  'Salim',
+            'level'         =>  3,
             'telp'          =>  '082182133457',
-            'email'         =>  'harjanto@gmail.com',
+            'username'      =>  'tesmanager',
             'password'      =>   bcrypt('123'),
         ]);
         DB::table('users')->insert([
             'name'          =>  'Wisnu',
-            'last_name'     =>  'Aditya',
-            'level'         =>  5,
-            'telp'          =>  '082182133457',
-            'email'         =>  'wisnu@gmail.com',
+            'last_name'     =>  'Ponorogo',
+            'level'         =>  4,
+            'telp'          =>  '082345235567',
+            'username'      =>  'tespelapor',
             'password'      =>   bcrypt('123'),
         ]);
     }

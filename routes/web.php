@@ -26,11 +26,11 @@ Auth::routes();
 // Route::get('/home', 'HomeController@index')->name('home');
 
 // Route for General Manager
-Route::group(['middleware' => ['auth','RoleLevel:1,2,3,4,5']], function(){
+Route::group(['middleware' => ['auth','RoleLevel:1,2,3,4']], function(){
     Route::get('/laporan', 'LaporanController@index')->name('laporan');
 });
 
-Route::group(['middleware' => ['auth','RoleLevel:1,3,4,5']], function(){
+Route::group(['middleware' => ['auth','RoleLevel:1,2,3,4']], function(){
     Route::get('/laporan/create', 'LaporanController@create')->name('laporan.create');
     Route::post('/laporan/store', 'LaporanController@store')->name('laporan.store');
     Route::put('/laporan/{id}/update', 'LaporanController@update')->name('laporan.update');
@@ -43,7 +43,7 @@ Route::group(['middleware' => ['auth','RoleLevel:1,2']], function(){
     Route::put('/laporan/{id}/groupping', 'LaporanController@groupping')->name('laporan.groupping');
 });
 
-Route::group(['middleware' => ['auth','RoleLevel:1,2,3,4,5']], function(){
+Route::group(['middleware' => ['auth','RoleLevel:1,2,3,4']], function(){
     Route::get('/laporan/{id}/detail', 'LaporanController@show')->name('laporan.show');
 });
 
@@ -65,9 +65,6 @@ Route::get('/laporan/{id}/download', 'LaporanController@download')->name('file_d
 
 
 Route::get('/error' ,'LaporanController@error');
-
-Route::get('/profile', 'ProfileController@index')->name('profile');
-Route::put('/profile', 'ProfileController@update')->name('profile.update');
 
 Route::get('/logout', 'Auth\LoginController@logout')->name('user.logout');
 

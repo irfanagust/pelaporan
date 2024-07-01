@@ -99,7 +99,7 @@
 
                             <div class="col-lg-12 mb-4">
                                 <div class="form-group">
-                                    <label class="form-control-label" for="file">File <label for="file" class="text-gray-500">{{'(jika ada)'}}</label></label> 
+                                    <label class="form-control-label" for="file">Dokumen Kelengkapan <label for="file" class="text-gray-500">{{'(jika ada)'}}</label></label> 
                                     <input type="file" id="file" class="form-control" name="file">
                                 </div>
                             </div>

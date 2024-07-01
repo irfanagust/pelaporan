@@ -36,7 +36,7 @@ class PenggunaController extends Controller
     {
         $request->validate([
             'name'      => 'required',
-            'email'     => 'required|email|unique:users',
+            'username'  => 'required|unique:users',
             'level'     => 'required',
             'telp'      => 'required',
             'password'  => 'required|same:password_confirmation'
@@ -47,7 +47,7 @@ class PenggunaController extends Controller
             'last_name' => $request->last_name,
             'level'     => $request->level,
             'telp'      => $request->telp,
-            'email'     => $request->email,
+            'username'  => $request->username,
             'password'  => $request->password,
         ]);
 
@@ -83,7 +83,7 @@ class PenggunaController extends Controller
     {
         $request->validate([
             'name'      => 'required',
-            'email'     => 'required|email|',
+            'username'  => 'required',
             'password'  => 'required|same:password_confirmation'
         ]);
 
@@ -91,7 +91,7 @@ class PenggunaController extends Controller
         $dataUser->last_name    = $request->last_name;
         $dataUser->level        = $request->level;
         $dataUser->telp         = $request->telp;
-        $dataUser->email        = $request->email;
+        $dataUser->username     = $request->username;
         $dataUser->password     = $request->password;
 
         $dataUser->update();
