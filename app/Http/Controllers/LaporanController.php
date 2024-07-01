@@ -182,8 +182,8 @@ class LaporanController extends Controller
             'lokasi'        => 'required',
             'divisi'        => 'required|array|min:1',
             'divisi.*'      => 'string',
-            'foto'          => 'required|image|mimes:jped,jpg,png,svg|max:5126',
-            'foto.*'        => 'required|image|mimes:jpeg,jpg,png,svg|max:5126',
+            'foto'          => 'required',
+            'foto.*'        => 'image|mimes:jpeg,jpg,png,svg|max:5126',
             'file'          => 'nullable',
             'pelabuhan'     => 'required',
             'divisi'        => 'nullable|array'
