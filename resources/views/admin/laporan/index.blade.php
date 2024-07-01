@@ -27,16 +27,18 @@
 
     <div class="container-fluid">
 
-        <div class="pl-lg-4 mb-3">
-            <div class="row">
-                <div class="col text-right">
-                    <a href="{{route('laporan.create')}}" class="btn btn-primary">
-                        <i class="fas fa-fw fa-plus mr-2"></i>
-                        <span class="font-weight-bold">{{ __('Ajukan Laporan') }}</span></a>
-                    </a>
+        @if (auth()->user()->level == 1 | auth()->user()->level == 5)
+            <div class="pl-lg-4 mb-3">
+                <div class="row">
+                    <div class="col text-right">
+                        <a href="{{ route('laporan.create') }}" class="btn btn-primary">
+                            <i class="fas fa-fw fa-plus mr-2"></i>
+                            <span class="font-weight-bold">{{ __('Ajukan Laporan') }}</span></a>
+                        </a>
+                    </div>
                 </div>
             </div>
-        </div>
+        @endif
 
         <!-- DataTales Example -->
         <div class="card shadow mb-4">
@@ -45,42 +47,125 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <table class="table table-bordered dt-responsive" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                             <tr>
                                 <th class="col-sm-1">No</th>
+                                <th>No Laporan</th>
                                 <th>Judul</th>
-                                <th>Ringkasan</th>
                                 <th>Pelapor</th>
+                                <th>Divisi Terkait</th>
+                                <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
-                            <tbody>
-                                @foreach($dataLaporan as $i => $row)
-                                <tr>
-                                    <td class="col-sm-1">{{++$i}}</td>
-                                    <td>{{$row->judul}}</td>
-                                    <td>{{$row->ringkasan}}</td>
-                                    <td>{{$row->user->name}} {{$row->user->last_name}}</td>
-                                    <td class="row">
-                                        <div class="col">
-                                            <a class="btn btn-info" href="{{route('laporan.show',$row->id)}}">Detail</a>
-                                            <a class="btn btn-warning" href="{{route('laporan.edit',$row->id)}}">Edit</a>
-                                            <form action="{{route('laporan.destroy',$row->id)}}" method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button class="btn btn-danger" type="submit">Hapus</button>
-                                            </form>
-                                        </div>
+                        <tbody>
+                            @foreach ($dataLaporan as $i => $row)
+                                <tr id="tr_{{$row['id']}}">
+                                    <td class="col-sm-1">{{ ++$i }}</td>
+                                    <td>{{ $row->id }}</td>
+                                    <td>{{ $row->judul }}</td>
+                                    <td>{{ $row->user->name }} {{ $row->user->last_name }}</td>
+                                    <td>
+                                        @if ($row->divisiTerkait->isEmpty())
+                                            Divisi Kosong
+                                        @else
+                                            @foreach( $row->divisiTerkait as $divisi)
+                                                    {{ $divisi->nama_divisi }}
+                                                    @if (!$loop->last)
+                                                        ,
+                                                    @endif
+                                            @endforeach
+                                        @endif
                                     </td>
+                                    <td>
+                                        @if ($row->status == 1)
+                                            Belum Di terima
+                                        @endif
+
+                                        @if ($row->status == 2)
+                                            Sudah Diterima
+                                        @endif
+
+                                        @if ($row->status == 3)
+                                            Sudah Dikerjakan
+                                        @endif
+                                    </td>
+                                    <td class="text-right">
+                                        <div class="btn-group">
+                                              
+                                            @if (auth()->user()->level == 1 | auth()->user()->level == 2 | auth()->user()->level == 5)
+                                                @if ($row->status == 1)
+                                                    <a class="btn btn-warning btn-sm mr-2"href="{{ route('laporan.edit', $row->id) }}"><i class="fas fa-fw fa-edit"></i></a>
+                                                @endif
+                                            @endif
+
+                                            <a class="btn btn-info btn-sm mr-2" href="{{ route('laporan.show', $row->id) }}"><i class="fas fa-fw fa-circle-info"></i></a>
+                                            
+                                            @if (auth()->user()->level == 1| auth()->user()->level == 2)
+                                                <a class="btn btn-success btn-sm mr-2" href="{{ route('laporan.group', $row->id) }}"><i class="fas fa-fw fa-people-group"></i></a>
+                                            @endif
+                                            
+
+                                            @if (auth()->user()->level == 1)
+                                                <a class="btn btn-danger btn-sm mr-2 deleteLaporan" data-id="{{ $row->id }}"><i class="fas fa-trash-alt"></i></a>
+                                            @endif
+                                        </div>
+
+                                    </td>
+
                                 </tr>
-                                @endforeach
-                            </tbody>
+                            @endforeach
+                        </tbody>
                     </table>
                 </div>
             </div>
         </div>
 
     </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.js" integrity="sha512-+k1pnlgt4F1H8L7t3z95o3/KO+o78INEcXTbnoJQ/F2VqDVhWoaiVml/OEHv9HsVgxUaVW+IbiZPUJQfF/YxZw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script>
+    $(document).ready(function() {
+        $('.deleteLaporan').on('click', function(e) {
+            e.preventDefault();
+            var itemId = $(this).data('id');
+            Swal.fire({
+                title: 'Yakin Ingin Menghapus Laporan?',
+                text: "Tindakan tidak bisa dikembalikan",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Iya, Hapus!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '/laporan/' + itemId + '/destroy',
+                        type: 'GET',
+                        success: function(response) {
+                            Swal.fire(
+                                'Berhasil Hapus!',
+                                'Data Berhasil Dihapus.',
+                                'success'
+                            );
+                            $('#tr_'+ itemId).hide()
+                        },
+                        error: function(xhr) {
+                            Swal.fire(
+                                'Gagal!',
+                                'Terjadi Kesalahan Ketika Menghapus Data.',
+                                'error'
+                            );
+                        }
+                    });
+                }
+            });
+        });
+    });
+</script>
 
 @endsection

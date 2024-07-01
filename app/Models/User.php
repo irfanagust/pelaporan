@@ -17,8 +17,17 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'last_name', 'email', 'password',
+        'name',
+        'last_name',
+        'level',
+        'telp',
+        'email',
+        'password',
     ];
+
+    public function divisiLevel(){
+        return $this->belongsTo(Role::class,'id');
+    }
 
     /**
      * The attributes that should be hidden for arrays.

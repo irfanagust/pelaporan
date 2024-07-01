@@ -29,31 +29,55 @@
         <div class="card shadow mb-4">
 
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Pengajuan Laporan</h6>
+                <div class="d-flex justify-content-start">
+                    <a href="{{ route('laporan') }}" class="mr-2 btn-sm btn-light"><i class="fa-solid fa-arrow-left"></i></a>
+                    <h5 class="font-weight-bold text-primary">Laporan No <b>{{$dataLaporan->id}}</b> oleh {{$dataLaporan->user->name}} {{$dataLaporan->user->last_name}}</h5>
+                </div>
             </div>
 
             <div class="card-body">
+
+                <form method="POST" action="{{ route('laporan.update',$dataLaporan->id) }}" autocomplete="off" enctype="multipart/form-data">
+                    @method('PUT')
+                    @csrf
+
+                    <input type="hidden" name="status" id="status" value="{{$dataLaporan->status}}">
 
                     <div class="pl-lg-4">
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="form-group">
                                     <label class="form-control-label" for="judul">Judul Laporan</label>
-                                    <input type="text" id="judul" class="form-control" name="judul" value="{{old('judul',$dataLaporan->judul)}}">
+                                    <input type="text" id="judul" class="form-control" name="judul" value="{{$dataLaporan->judul}}">
                                 </div>
                             </div>
 
                             <div class="col-lg-12">
                                 <div class="form-group">
-                                    <label class="form-control-label" for="ringkasan">Ringkasan Laporan</label>
-                                    <input type="text" id="ringkasan" class="form-control" name="ringkasan" value="{{old('ringkasan', $dataLaporan->ringkasan)}}">
+                                    <label class="form-control-label" for="file">Deskripsi Laporan</label>
+                                    <textarea type="text" id="deskripsi" class="form-control" name="deskripsi" >{{$dataLaporan->deskripsi}}</textarea>
                                 </div>
                             </div>
 
                             <div class="col-lg-12">
                                 <div class="form-group">
-                                    <label class="form-control-label" for="ringkasan">Deskripsi Laporan</label>
-                                    <textarea type="text" id="deskripsi" class="form-control" name="deskripsi">{{old('deskripsi', $dataLaporan->deskripsi)}}</textarea>
+                                    <label class="form-control-label" for="pelabuhan">Lokasi Pelabuhan</label>
+                                    <select class="form-control" name="pelabuhan" id="pelabuhan">
+                                        @foreach ($dataPelabuhan as $item)
+                                            <option value="{{$item->pelabuhan}}">
+                                                <b>
+                                                    {{$item->pelabuhan}}
+                                                </b>
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="lokasi">Ringkasan Laporan</label>
+                                    <input type="text" id="lokasi" class="form-control" name="lokasi" value="{{$dataLaporan->lokasi}}">
                                 </div>
                             </div>
 
@@ -70,6 +94,7 @@
                                     <input type="file" id="file" class="form-control" name="file">
                                 </div>
                             </div>
+
                         </div>
                     </div>
 
@@ -81,6 +106,8 @@
                             </div>
                         </div>
                     </div>
+                </form>
+
             </div>
 
         </div>
