@@ -417,7 +417,7 @@ class LaporanController extends Controller
 
                 $url = action([LaporanController::class,'show'], $id);
                 $groupChat = -4243954575;
-                $message = "*Laporan No $laporan->id* \n \nJudul Laporan = $laporan->judul\nLokasi = $laporan->lokasi \nPelabuhan = $request->pelabuhan \nPelapor = ".$laporan->user->name.' '.$laporan->user->last_name."\n $url"."\n \n *Sudah selesai dikerjakan*";
+                $message = "*Laporan No $laporan->id* \n \nJudul Laporan = $laporan->judul\nLokasi = $laporan->lokasi \nPelabuhan = $laporan->pelabuhan \nPelapor = ".$laporan->user->name.' '.$laporan->user->last_name."\n $url"."\n \n *Sudah selesai dikerjakan*";
                 Telegram::sendMessage([
                     'chat_id'   => $groupChat,
                     'text'      => $message  
